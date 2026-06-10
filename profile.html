@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins', sans-serif;
+}
+
+/* 🔥 FIX COLORS VARIABLES (important for avatar) */
+:root{
+  --c1:#3b82f6;
+  --c2:#10b981;
+}
+
+/* BACKGROUND */
+body{
+  background: linear-gradient(135deg, #e0f2fe, #f0f9ff);
+  min-height:100vh;
+  color:#0f172a;
+}
+
+/* SIDEBAR */
+.sidebar{
+  width:220px;
+  background: rgba(255,255,255,0.3);
+  backdrop-filter: blur(12px);
+  padding:20px;
+  height:100vh;
+  position:fixed;
+}
+
+.sidebar h2{
+  margin-bottom:20px;
+}
+
+/* MENU BUTTONS */
+.menu button{
+  width:100%;
+  padding:10px;
+  margin-bottom:10px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  background: rgba(255,255,255,0.5);
+  color:#000;
+  transition:0.3s;
+}
+
+/* ACTIVE */
+.menu button.active{
+  transform:scale(1.05);
+  background:white;
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* MAIN */
+.main{
+  margin-left:240px;
+  padding:30px;
+}
+
+/* CARD */
+.card{
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(15px);
+  padding:20px;
+  border-radius:25px;
+  display:flex;
+  align-items:center;
+  gap:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
+  animation:fadeIn 0.4s ease;
+}
+
+/* AVATAR */
+.avatar{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:32px;
+  font-weight:bold;
+  color:white;
+  background: linear-gradient(135deg,var(--c1),var(--c2));
+  transition:0.4s;
+}
+
+.info h2{
+  font-size:22px;
+}
+
+/* SECTIONS */
+.section{
+  margin-top:20px;
+  background: rgba(255,255,255,0.3);
+  backdrop-filter: blur(12px);
+  padding:20px;
+  border-radius:20px;
+  display:none;
+  animation:slideUp 0.3s ease;
+}
+
+.section.active{
+  display:block;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border:none;
+  border-radius:12px;
+  outline:none;
+  background: rgba(255,255,255,0.6);
+}
+
+/* BUTTON STYLE (unchanged as you requested) */
+button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(135deg,#3b82f6,#10b981);
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  margin-top:10px;
+  box-shadow:0 10px 28px rgba(59,130,246,0.5),
+             0 0 15px rgba(16,185,129,0.5); 
+  transition:0.3s;
+}
+
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 14px 35px rgba(59,130,246,0.6),
+             0 0 20px rgba(16,185,129,0.6);
+}
+
+/* COLORS */
+.colors{
+  margin-top:20px;
+  display:flex;
+  gap:10px;
+}
+
+.color{
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  cursor:pointer;
+  border:2px solid white;
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(-10px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+@keyframes slideUp{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
+}
+/* 🌙 DARK MODE */
+body.dark{
+  background: linear-gradient(135deg, #0f172a, #020617);
+  color: #e2e8f0;
+}
+
+/* Sidebar */
+body.dark .sidebar{
+  background: rgba(15,23,42,0.6);
+}
+
+/* Cards */
+body.dark .card,
+body.dark .section{
+  background: rgba(15,23,42,0.6);
+}
+
+/* Inputs */
+body.dark input{
+  background: rgba(30,41,59,0.7);
+  color: white;
+}
+
+/* Buttons (menu) */
+body.dark .menu button{
+  background: rgba(30,41,59,0.6);
+  color: white;
+}
+
+body.dark .menu button.active{
+  background: #1e293b;
+}
+
+/* Avatar text */
+body.dark .avatar{
+  color: white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+  <h2>Profile</h2>
+
+  <div class="menu">
+    <button class="active" onclick="show('about', this)">About</button>
+    <button onclick="show('security', this)">Security</button>
+  </div>
+    <h3 id="themeTitle" style="margin-top:20px";>Theme</h3>
+  <!-- 🔥 غير هذا الجزء فقط في colors -->
+<div class="colors">
+  <div class="color" style="background:#3b82f6" onclick="setTheme('#3b82f6','#10b981'); setAvatarTheme('#3b82f6')"></div>
+  <div class="color" style="background:#ef4444" onclick="setTheme('#ef4444','#f59e0b'); setAvatarTheme('#ef4444')"></div>
+  <div class="color" style="background:#8b5cf6" onclick="setTheme('#8b5cf6','#3b82f6'); setAvatarTheme('#8b5cf6')"></div>
+</div>
+</div>
+
+<div class="main">
+
+  <div class="card">
+    <div class="avatar" id="avatar">S</div>
+    <div class="info">
+      <h2 id="nameText"></h2>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div id="about" class="section active">
+    <h3>About</h3>
+    <input id="nom" placeholder="Nom">
+    <input id="prenom" placeholder="Prénom">
+    <input id="email" placeholder="Email">
+    <input id="phone" placeholder="Phone">
+    <input id="address" placeholder="Address">
+
+    <button onclick="save()">Save</button>
+  </div>
+
+  <!-- SECURITY -->
+  <div id="security" class="section">
+    <h3>Security</h3>
+    <input type="password" id="currentPassword" placeholder="Current Password">
+    <input type="password" id="newPassword" placeholder="New Password">
+    <input type="password" id="confirmPassword" placeholder="Confirm Password">
+    <button onclick="updatePassword()">Update Password</button>
+  </div>
+
+</div>
+
+<script>
+let currentLang = localStorage.getItem("lang") || "en";
+
+const translations = {
+  en: { profile: "Profile", themeTitle:"Theme", about: "About", security: "Security", saveBtn: "Save", currentPassword: "Current Password", newPassword: "New Password", confirmPassword: "Confirm Password", updatePassword: "Update Password" },
+  fr: { profile: "Profil", themeTitle:"Thème", about: "À propos", security: "Sécurité", saveBtn: "Enregistrer", currentPassword: "Mot de passe actuel", newPassword: "Nouveau mot de passe", confirmPassword: "Confirmer le mot de passe", updatePassword: "Mettre à jour le mot de passe" },
+  ar: { profile: "الملف الشخصي", themeTitle:"الخلفية", about: "حول", security: "الأمان", saveBtn: "حفظ", currentPassword: "كلمة المرور الحالية", newPassword: "كلمة المرور الجديدة", confirmPassword: "تأكيد كلمة المرور", updatePassword: "تحديث كلمة المرور" }
+};
+
+function applyTranslations(){
+    document.querySelector(".sidebar h2").innerText = translations[currentLang].profile;
+    document.querySelector(".menu button:nth-child(1)").innerText = translations[currentLang].about;
+    document.querySelector(".menu button:nth-child(2)").innerText = translations[currentLang].security;
+
+    // 🟢 تصحيح المفتاح هنا
+    document.getElementById("themeTitle").innerText = translations[currentLang].themeTitle;
+
+    document.querySelector("#about h3").innerText = translations[currentLang].about;
+    document.querySelector("#about button").innerText = translations[currentLang].saveBtn;
+
+    document.querySelector("#security h3").innerText = translations[currentLang].security;
+    let secInputs = document.querySelectorAll("#security input");
+    secInputs[0].placeholder = translations[currentLang].currentPassword;
+    secInputs[1].placeholder = translations[currentLang].newPassword;
+    secInputs[2].placeholder = translations[currentLang].confirmPassword;
+    document.querySelector("#security button").innerText = translations[currentLang].updatePassword;
+}
+function setTheme(c1,c2){
+  document.documentElement.style.setProperty('--c1',c1);
+  document.documentElement.style.setProperty('--c2',c2);
+
+  // حفظ الألوان لتبقى عند إعادة تحميل الصفحات
+  localStorage.setItem('themeC1', c1);
+  localStorage.setItem('themeC2', c2);
+}
+/* SHOW SECTIONS */
+function show(id, btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+
+  document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+/* SAVE LOCAL (نخليه لكن نغير الاسم باش ما يتعارضش) */
+function saveLocal(){
+  let nom = document.getElementById("nom").value;
+  let prenom = document.getElementById("prenom").value;
+
+  let fullName = nom + " " + prenom;
+
+  document.getElementById("nameText").innerText = fullName;
+
+  document.getElementById("avatar").innerText = nom.charAt(0).toUpperCase();
+
+  localStorage.setItem("nom", nom);
+  localStorage.setItem("prenom", prenom);
+  localStorage.setItem("email", document.getElementById("email").value);
+  localStorage.setItem("phone", document.getElementById("phone").value);
+  localStorage.setItem("address", document.getElementById("address").value);
+}
+
+/* LOAD DATA FROM LOCAL */
+function loadLocal(){
+  let nom = localStorage.getItem("nom");
+  let prenom = localStorage.getItem("prenom");
+
+  if(nom){
+    document.getElementById("nom").value = nom;
+    document.getElementById("prenom").value = prenom;
+    document.getElementById("nameText").innerText = nom + " " + prenom;
+    document.getElementById("avatar").innerText = nom.charAt(0).toUpperCase();
+  }
+
+  document.getElementById("email").value = localStorage.getItem("email") || "";
+  document.getElementById("phone").value = localStorage.getItem("phone") || "";
+  document.getElementById("address").value = localStorage.getItem("address") || "";
+}
+
+/* THEME */
+
+
+
+
+/* ✅ WINDOW ONLOAD (دمجنا كل شيء هنا) */
+window.onload = function(){
+const savedC1 = localStorage.getItem('themeC1') || '#3b82f6';
+  const savedC2 = localStorage.getItem('themeC2') || '#10b981';
+  setTheme(savedC1, savedC2);
+  // 1. تحميل localStorage (اختياري)
+  loadLocal();
+
+  // 2. تحميل من السيرفر (هو المهم)
+  fetch('get_user.php', {
+      credentials: 'include'
+  })
+  .then(res => res.json())
+  .then(user => {
+
+      if(user.error){
+        alert("Please log in first");
+        return;
+      }
+
+      document.getElementById("nom").value = user.first_name || "";
+      document.getElementById("prenom").value = user.last_name || "";
+      document.getElementById("nameText").innerText =
+        (user.first_name + " " + user.last_name).trim();
+
+      document.getElementById("avatar").innerText =
+        user.first_name ? user.first_name.charAt(0).toUpperCase() : "";
+
+      document.getElementById("email").value = user.email || "";
+      document.getElementById("phone").value = user.phone || "";
+      document.getElementById("address").value = user.address || "";
+
+  })
+  .catch(() => alert("Please log in first"));
+  applyTranslations();
+};
+
+
+/* ✅ SAVE (السيرفر) */
+function save() {
+    // حفظ البيانات محليًا
+    saveLocal();
+
+    // ثم إرسال البيانات للسيرفر
+    let data = {
+        first_name: document.getElementById("nom").value,
+        last_name: document.getElementById("prenom").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        address: document.getElementById("address").value
+    };
+
+    fetch('update_user.php', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        credentials: 'include',
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(res => {
+        if(res.status === "success"){
+            alert("Profile updated!");
+        } else {
+            alert("Error updating profile: " + (res.message || ""));
+        }
+    })
+    .catch(err => console.error(err));
+}
+function updatePassword(){
+    let current = document.getElementById("currentPassword").value;
+    let newPass = document.getElementById("newPassword").value;
+    let confirm = document.getElementById("confirmPassword").value;
+
+    console.log({current,newPass,confirm}); // 🔍 التحقق من القيم
+
+    if(!current || !newPass || !confirm){
+        alert("Please fill all password fields");
+        return;
+    }
+    if(newPass !== confirm){
+        alert("Passwords do not match!");
+        return;
+    }
+
+    fetch('update_password.php', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        credentials: 'include',
+        body: JSON.stringify({
+            current_password: current,
+            new_password: newPass
+        })
+    })
+    .then(res => res.json())
+    .then(res => {
+        console.log(res); // 🔍 التحقق من الاستجابة
+        if(res.status === "success"){
+            alert("Password updated successfully!");
+            document.getElementById("currentPassword").value = "";
+            document.getElementById("newPassword").value = "";
+            document.getElementById("confirmPassword").value = "";
+        } else {
+            alert("Error: " + (res.message || ""));
+        }
+    })
+    .catch(err => console.error(err));
+}
+// مثال عند اختيار theme جديد
+function setAvatarTheme(color) {
+  // تطبيق اللون مباشرة
+  document.querySelectorAll('.avatar').forEach(a => {
+    a.style.background = color;
+  });
+
+  // حفظ اللون
+  localStorage.setItem('avatarTheme', color);
+}
+
+
+window.addEventListener('DOMContentLoaded', () => {
+
+  // Avatar theme
+  const avatarTheme = localStorage.getItem('avatarTheme') || '#3b82f6';
+  document.querySelectorAll('.avatar').forEach(a => {
+    a.style.background = avatarTheme;
+  });
+
+  // 🌙 DARK MODE SYNC
+  const darkMode = localStorage.getItem("darkMode");
+
+  if(darkMode === "true"){
+    document.body.classList.add("dark");
+  } else {
+    document.body.classList.remove("dark");
+  }
+
+});
+
+</script>
+
+</body>
+</html>

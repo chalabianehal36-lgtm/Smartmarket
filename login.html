@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login / Sign Up</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+#signupForm{
+  transform: scale(0.9);
+}
+.card.signup-mode{
+  width:450px;     /* كان 400px */
+  padding: 1px;    /* تقليل الفراغ */
+}
+body{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#dbeafe,#f0fdf4,#fef9c3);
+  background-size:600% 600%;
+  animation: gradientBG 12s ease infinite;
+  overflow:hidden;
+}
+
+@keyframes gradientBG{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+.circle{position:absolute;border-radius:50%;filter:blur(100px);}
+
+
+.card{
+  position:relative;
+  width:400px;
+  padding:40px;
+  border-radius:20px;
+  backdrop-filter:blur(20px);
+  background:rgba(255,255,255,0.08);
+  box-shadow:0 0 40px rgba(0,0,0,0.4);
+  color:rgb(22, 16, 16);
+  text-align:center;
+}
+
+.input-box{
+  position:relative;
+  margin-bottom:15px;
+  text-align:left;
+}
+
+/* ✅ FIX: خلي غير icons العاديين فاليسار */
+
+
+/* ✅ input padding باش يعطي مساحة لليسار واليمين */
+.input-box input, 
+.input-box select{
+  width:100%;
+  padding:14px 45px 14px 40px;
+  border:none;
+  border-radius:8px;
+  background:rgba(63, 62, 62, 0.15);
+  color:rgb(22, 16, 16);
+  outline:none;
+}
+
+/* ✅ العين فاليمين */
+.toggle-eye{
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+  color:#424141;
+}
+.input-box i:not(.toggle-eye):not(.toggle-eye-signup){
+  position:absolute;
+  top:50%;
+  left:12px;
+  transform:translateY(-50%);
+  color:#424141;
+}
+.toggle-eye,
+.toggle-eye-signup{
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+  color:#424141;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(135deg,#3b82f6,#10b981);
+  color:rgb(22, 16, 16);
+  font-size:16px;
+  cursor:pointer;
+  margin-top:10px;
+  color:white;
+  box-shadow:0 10px 28px rgba(59,130,246,0.5),0 0 15px rgba(16,185,129,0.5); 
+  transition:0.3s;
+}
+
+.switch{
+  margin-top:15px;
+  font-size:14px;
+  text-align:center;
+}
+
+.switch a{
+  color:#35ebc3;
+  cursor:pointer;
+  text-decoration:none;
+}
+
+.hidden{display:none;}
+
+.error-msg{
+  color:red;
+  text-align:center;
+  margin-top:5px;
+  font-size:14px;
+}
+
+/* AVATAR */
+.avatar{
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  background:#35ebc3;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 15px;
+  font-weight:bold;
+  font-size:20px;
+}
+
+/* REMEMBER */
+.remember{
+  display:flex;
+  align-items:center;
+  justify-content: center;
+  gap:8px;
+  font-size:14px;
+  margin:15px 0;
+}
+body.dark {
+  background: #0f172a;
+  color: #f1f5f9;
+}
+
+body.dark .navbar {
+  background: rgba(30,30,30,0.8);
+  color: #f1f5f9;
+}
+
+body.dark .product-card,
+body.dark .category-card {
+  background: rgba(30,30,30,0.5);
+  color: #f1f5f9;
+}
+
+body.dark .hero-box {
+  background: rgba(0,0,0,0.35);
+  color: white;
+}
+/* ===== DARK MODE FIX FOR INPUTS ===== */
+body.dark input,
+body.dark select {
+  background: rgba(255,255,255,0.1);
+  color: #f1f5f9; /* أبيض */
+}
+
+body.dark input::placeholder {
+  color: #cbd5f5; /* لون placeholder فاتح */
+}
+
+/* icons */
+body.dark .input-box i {
+  color: #cbd5f5;
+}
+
+/* avatar */
+body.dark .avatar {
+  color: white;
+}
+body.dark input {
+  border: 1px solid rgba(255,255,255,0.2);
+}
+/* ===== TEXT FIX ===== */
+body.dark {
+  color: #f1f5f9;
+}
+
+/* Login / titles / normal text */
+body.dark h1,
+body.dark h2,
+body.dark p,
+body.dark label,
+body.dark .switch {
+  color: #f1f5f9;
+}
+
+/* ===== LINKS (Don't have account) ===== */
+body.dark .switch a {
+  color: #22c55e; /* أخضر جميل */
+}
+
+/* ===== INPUTS ===== */
+body.dark input,
+body.dark select {
+  background: rgba(255,255,255,0.08);
+  color: #f1f5f9;
+}
+
+body.dark input::placeholder {
+  color: #cbd5f5;
+}
+
+/* ===== ICONS ===== */
+body.dark .input-box i {
+  color: #cbd5f5;
+}
+
+/* eye icon */
+body.dark .toggle-eye,
+body.dark .toggle-eye-signup {
+  color: #e2e8f0;
+}
+
+/* ===== REMEMBER CHECKBOX ===== */
+body.dark .remember {
+  color: #f1f5f9;
+}
+
+body.dark input[type="checkbox"] {
+  accent-color: #22c55e; /* لون check */
+}
+
+/* ===== CARD ===== */
+body.dark .card {
+  
+  color: #f1f5f9;
+}
+</style>
+</head>
+<body>
+<div class="circle circle1"></div>
+<div class="circle circle2"></div>
+<div class="card">
+
+<!-- LOGIN FORM -->
+<div class="avatar" id="avatarLetter">?</div>
+<div id="loginForm">
+  <h1 id="loginTitle">Login</h1>
+  <div class="input-box">
+    <i class="fa fa-envelope"></i>
+    <input type="email" id="loginEmail" placeholder="Email">
+  </div>
+  <div class="input-box">
+    <i class="fa fa-lock"></i>
+    <input type="password" id="loginPassword" placeholder="Password">
+    <i class="fa fa-eye toggle-eye" onclick="togglePassword()"></i>
+  </div>
+  <div class="remember" id="rememberLogin">
+    <input type="checkbox" id="rememberCheck">
+    <label id="rememberLabel">Remember me</label>
+  </div>
+  <button id="loginBtn">Login</button>
+  <div id="loginError" class="error-msg"></div>
+  <div class="switch" id="loginSwitch">Don't have an account? <a onclick="showSignup()">Sign Up</a></div>
+</div>
+
+<!-- SIGNUP FORM -->
+<div id="signupForm" class="hidden">
+  <div class="avatar" id="signupAvatar">+</div>
+  <h2 id="signupTitle">Create Account</h2>
+  <div class="input-box"><i class="fa fa-user"></i><input type="text" id="nom" placeholder="First Name"><div id="name" class="error-msg"></div></div>
+  <div class="input-box"><i class="fa fa-user"></i><input type="text" id="pre" placeholder="Last Name"><div id="lastname" class="error-msg"></div></div>
+  <div class="input-box"><i class="fa fa-phone"></i><input type="tel" id="num" placeholder="Phone Number"><div id="num1" class="error-msg"></div></div>
+  <div class="input-box"><i class="fa fa-envelope"></i><input type="email" id="email" placeholder="Email"><div id="emailll" class="error-msg"></div></div>
+  <div class="input-box"><i class="fa fa-map-marker-alt"></i><input type="text" id="add" placeholder="Address"><div id="address" class="error-msg"></div></div>
+  <div class="input-box">
+  <i class="fa fa-lock"></i>
+  <input type="password" id="mdp" placeholder="Password">
+  <i class="fa fa-eye toggle-eye-signup" onclick="togglePasswordSignup('mdp', this)"></i>
+  <div id="password" class="error-msg"></div>
+</div>
+
+<div class="input-box">
+  <i class="fa fa-lock"></i>
+  <input type="password" id="confirmation" placeholder="Confirm Password">
+  <i class="fa fa-eye toggle-eye-signup" onclick="togglePasswordSignup('confirmation', this)"></i>
+  <div id="confpassword" class="error-msg"></div>
+</div>
+  <button id="signupBtn">Create Account</button>
+  <div class="switch" id="signupSwitch">Already have an account? <a onclick="showLogin()">Login</a></div>
+</div>
+</div>
+<script>
+  function togglePasswordSignup(id, icon){
+  let pass = document.getElementById(id);
+  if(pass.type === "password"){
+    pass.type = "text";
+    icon.classList.remove("fa-eye");
+    icon.classList.add("fa-eye-slash");
+  } else {
+    pass.type = "password";
+    icon.classList.remove("fa-eye-slash");
+    icon.classList.add("fa-eye");
+  }
+}
+ document.getElementById("loginEmail").addEventListener("input", function() {
+    let email = this.value.trim();
+    let avatar = document.getElementById("avatarLetter");
+
+    if(email.length > 0){
+        let letter = email.charAt(0).toUpperCase();
+        avatar.innerText = letter;
+
+        // تغيير اللون حسب الحرف
+        let colors = ["#ff00cc","#00fff0","#ff8800","#00ff88","#0088ff"];
+        let index = letter.charCodeAt(0) % colors.length;
+        avatar.style.background = colors[index];
+    }else{
+        avatar.innerText = "?";
+        avatar.style.background = "#ff00cc";
+    }
+});
+  function togglePassword(){
+  let pass = document.getElementById("loginPassword");
+  let icon = document.querySelector(".toggle-eye");
+
+  if(pass.type === "password"){
+    pass.type = "text";
+    icon.classList.remove("fa-eye");
+    icon.classList.add("fa-eye-slash");
+  }else{
+    pass.type = "password";
+    icon.classList.remove("fa-eye-slash");
+    icon.classList.add("fa-eye");
+  }
+}
+// ========================== LANGUAGE SUPPORT ==========================
+const translations = {
+  en: {
+    loginTitle: "Login",
+    loginEmail: "Email",
+    loginPassword: "Password",
+    remember: "Remember me",
+    loginBtn: "Login",
+    loginSwitch: "Don't have an account? <a onclick='showSignup()'>Sign Up</a>",
+    signupTitle: "Create Account",
+    signupNom: "First Name",
+    signupPre: "Last Name",
+    signupNum: "Phone Number",
+    signupEmail: "Email",
+    signupAdd: "Address",
+    signupMdp: "Password",
+    signupConf: "Confirm Password",
+    signupBtn: "Create Account",
+    signupSwitch: "Already have an account? <a onclick='showLogin()'>Login</a>",
+    loginErrors: {
+      empty: "Enter email & password!",
+      emptyEmail: "Enter email!",
+      emptyPassword: "Enter password!",
+      wrongPassword: "❌ Wrong password",
+      emailNotFound: "❌ Email not found"
+    },
+    signupErrors: {
+      emptyFirst: "Enter first name!",
+      emptyLast: "Enter last name!",
+      invalidPhone: "Invalid phone number!",
+      emptyEmail: "Enter email!",
+      emptyAddress: "Enter address!",
+      emptyPassword: "Enter password!",
+      shortPassword: "Minimum 8 characters!",
+      emptyConfirm: "Confirm password!",
+      notMatch: "Passwords do not match!"
+    } 
+  },
+  fr: {
+    loginTitle: "Connexion",
+    loginEmail: "Email",
+    loginPassword: "Mot de passe",
+    remember: "Se souvenir de moi",
+    loginBtn: "Se connecter",
+    loginSwitch: "Pas de compte ? <a onclick='showSignup()'>Créer un compte</a>",
+    signupTitle: "Créer un compte",
+    signupNom: "Nom",
+    signupPre: "Prénom ",
+    signupNum: "Numéro de téléphone",
+    signupEmail: "Email",
+    signupAdd: "Adresse",
+    signupMdp: "Mot de passe",
+    signupConf: "Confirmer le mot de passe",
+    signupBtn: "Créer un compte",
+    signupSwitch: "Déjà un compte ? <a onclick='showLogin()'>Se connecter</a>",
+    loginErrors: {
+      empty: "Entrez email & mot de passe !",
+      emptyEmail: "Entrez email !",
+      emptyPassword: "Entrez mot de passe !",
+      wrongPassword: "❌ Mot de passe incorrect",
+      emailNotFound: "❌ Email introuvable"
+    },
+    signupErrors: {
+      emptyFirst: "Entrez le nom !",
+      emptyLast: "Entrez le prénom !",
+      invalidPhone: "Numéro de téléphone invalide !",
+      emptyEmail: "Entrez email !",
+      emptyAddress: "Entrez adresse !",
+      emptyPassword: "Entrez mot de passe !",
+      shortPassword: "Minimum 8 caractères !",
+      emptyConfirm: "Confirmez mot de passe !",
+      notMatch: "Les mots de passe ne correspondent pas !"
+    }
+  },
+  ar: {
+    loginTitle: "تسجيل الدخول",
+    loginEmail: "البريد الإلكتروني",
+    loginPassword: "كلمة المرور",
+    remember: "تذكرني" ,
+    loginBtn: "دخول",
+    loginSwitch: "ليس لديك حساب؟ <a onclick='showSignup()'>إنشاء حساب</a>",
+    signupTitle: "إنشاء حساب",
+    signupNom: "اسم العائلة",
+    signupPre: "الاسم الاول",
+    signupNum: "رقم الهاتف",
+    signupEmail: "البريد الإلكتروني",
+    signupAdd: "العنوان",
+    signupMdp: "كلمة المرور",
+    signupConf: "تأكيد كلمة المرور",
+    signupBtn: "إنشاء الحساب",
+    signupSwitch: "لديك حساب؟ <a onclick='showLogin()'>تسجيل الدخول</a>",
+    loginErrors: {
+      empty: "أدخل البريد وكلمة المرور!",
+      emptyEmail: "أدخل البريد!",
+      emptyPassword: "أدخل كلمة المرور!",
+      wrongPassword: "❌ كلمة المرور خاطئة",
+      emailNotFound: "❌ البريد غير موجود"
+    },
+    signupErrors: {
+      emptyFirst: "أدخل اسم العائلة",
+      emptyLast: "أدخل الاسم الاول",
+      invalidPhone: "رقم الهاتف غير صالح!",
+      emptyEmail: "أدخل البريد!",
+      emptyAddress: "أدخل العنوان!",
+      emptyPassword: "أدخل كلمة المرور!",
+      shortPassword: "الحد الأدنى 8 أحرف!",
+      emptyConfirm: "أكد كلمة المرور!",
+      notMatch: "كلمتا المرور غير متطابقتين!"
+    }
+  }
+};
+
+let currentLang = localStorage.getItem("lang") || "en";
+
+window.addEventListener("DOMContentLoaded", () => {
+  // تطبيق وضع الداكن عند تحميل الصفحة
+if (localStorage.getItem("darkMode") === "true") {
+  document.body.classList.add("dark");
+}
+  // LOGIN FORM
+  document.getElementById("loginTitle").innerText = translations[currentLang].loginTitle;
+  document.getElementById("loginEmail").placeholder = translations[currentLang].loginEmail;
+  document.getElementById("loginPassword").placeholder = translations[currentLang].loginPassword;
+  document.getElementById("loginBtn").innerText = translations[currentLang].loginBtn;
+  document.getElementById("loginSwitch").innerHTML = translations[currentLang].loginSwitch;
+
+  // REMEMBER ME
+  document.getElementById("rememberLabel").innerText = translations[currentLang].remember || "Remember me";
+
+  // SIGNUP FORM
+  document.getElementById("signupAvatar").innerText = "+";
+  document.getElementById("signupTitle").innerText = translations[currentLang].signupTitle;
+  document.getElementById("nom").placeholder = translations[currentLang].signupNom;
+  document.getElementById("pre").placeholder = translations[currentLang].signupPre;
+  document.getElementById("num").placeholder = translations[currentLang].signupNum;
+  document.getElementById("email").placeholder = translations[currentLang].signupEmail;
+  document.getElementById("add").placeholder = translations[currentLang].signupAdd;
+  document.getElementById("mdp").placeholder = translations[currentLang].signupMdp;
+  document.getElementById("confirmation").placeholder = translations[currentLang].signupConf;
+  document.getElementById("signupBtn").innerText = translations[currentLang].signupBtn;
+  document.getElementById("signupSwitch").innerHTML = translations[currentLang].signupSwitch;
+
+  // RTL adjustment
+  if (currentLang === "ar") {
+    document.body.style.direction = "rtl";
+    document.body.style.textAlign = "right";
+  } else {
+    document.body.style.direction = "ltr";
+    document.body.style.textAlign = "left";
+  }
+});
+
+// ========================== EXISTING CODE WITH LANGUAGE SUPPORT =============================
+
+// Switch forms
+// تعديل showLogin
+function showLogin() {
+    document.getElementById("signupForm").classList.add("hidden");
+    document.getElementById("loginForm").classList.remove("hidden");
+    document.getElementById("signupAvatar").style.display = "none"; // اخفاء avatar signup
+    document.getElementById("avatarLetter").style.display = "flex"; // اظهار avatar login
+    document.querySelector(".card").classList.remove("signup-mode");
+    // تحديث avatar login حسب البريد الموجود
+    const emailInput = document.getElementById("loginEmail").value.trim();
+    const avatar = document.getElementById("avatarLetter");
+    if(emailInput.length > 0){
+        const letter = emailInput.charAt(0).toUpperCase();
+        avatar.innerText = letter;
+        let colors = ["#ff00cc","#00fff0","#ff8800","#00ff88","#0088ff"];
+        let index = letter.charCodeAt(0) % colors.length;
+        avatar.style.background = colors[index];
+    } else {
+        avatar.innerText = "?";
+        avatar.style.background = "#ff00cc";
+    }
+}function showSignup() {
+    document.getElementById("loginForm").classList.add("hidden");
+    document.getElementById("signupForm").classList.remove("hidden");
+
+    // التحكم بالـ avatars
+    document.getElementById("avatarLetter").style.display = "none";
+    document.getElementById("signupAvatar").style.display = "flex";
+    document.querySelector(".card").classList.add("signup-mode");
+}
+
+
+
+// LOGIN VALIDATION
+function Validation_login() {
+    var email = document.getElementById("loginEmail").value.trim();
+    var password = document.getElementById("loginPassword").value.trim();
+    var element = document.getElementById("loginError");
+    if(email === "" && password === "") { element.innerHTML=translations[currentLang].loginErrors.empty; return false; }
+    if(email === "") { element.innerHTML=translations[currentLang].loginErrors.emptyEmail; return false; }
+    if(password === "") { element.innerHTML=translations[currentLang].loginErrors.emptyPassword; return false; }
+    element.innerHTML = ""; return true;
+}
+
+// SIGNUP VALIDATION
+function validation_inscription() {
+    var nom = document.getElementById("nom").value.trim();
+    var pre = document.getElementById("pre").value.trim();
+    var num = document.getElementById("num").value.trim();
+    var email = document.getElementById("email").value.trim();
+    var add = document.getElementById("add").value.trim();
+    var mdp = document.getElementById("mdp").value.trim();
+    var confirmation = document.getElementById("confirmation").value.trim();
+
+    if(nom==""){document.getElementById("name").innerText=translations[currentLang].signupErrors.emptyFirst; return false;} else document.getElementById("name").innerText="";
+    if(pre==""){document.getElementById("lastname").innerText=translations[currentLang].signupErrors.emptyLast; return false;} else document.getElementById("lastname").innerText="";
+    if(num=="" || num.length<9 || num.length>10){document.getElementById("num1").innerText=translations[currentLang].signupErrors.invalidPhone; return false;} else document.getElementById("num1").innerText="";
+    if(email==""){document.getElementById("emailll").innerText=translations[currentLang].signupErrors.emptyEmail; return false;} else document.getElementById("emailll").innerText="";
+    if(add==""){document.getElementById("address").innerText=translations[currentLang].signupErrors.emptyAddress; return false;} else document.getElementById("address").innerText="";
+    if(mdp==""){document.getElementById("password").innerText=translations[currentLang].signupErrors.emptyPassword; return false;} else if(mdp.length<8){document.getElementById("password").innerText=translations[currentLang].signupErrors.shortPassword; return false;} else document.getElementById("password").innerText="";
+    if(confirmation==""){document.getElementById("confpassword").innerText=translations[currentLang].signupErrors.emptyConfirm; return false;} else if(confirmation!==mdp){document.getElementById("confpassword").innerText=translations[currentLang].signupErrors.notMatch; return false;} else document.getElementById("confpassword").innerText="";
+    return true;
+}
+
+// LOGIN FETCH
+document.getElementById("loginBtn").addEventListener("click", function(e){
+    e.preventDefault(); 
+    if(!Validation_login()) return;
+
+    let formData = new FormData();
+    formData.append("email", document.getElementById("loginEmail").value);
+    formData.append("password", document.getElementById("loginPassword").value);
+
+    fetch("login.php",{
+    method:"POST",
+    credentials: 'include', // 🔥 هذا هو الحل
+    body:formData
+})
+    .then(res => res.json())
+    .then(data => {
+        if(data.status === "success"){
+            let user = {
+                id: data.id,
+                name: data.nom,
+                email: data.email
+            };
+            localStorage.setItem("user", JSON.stringify(user));
+            window.location.href = "index.html";
+        } else if(data.status === "wrong_password"){
+            document.getElementById("loginError").innerText = translations[currentLang].loginErrors.wrongPassword;
+        } else if(data.status === "email_not_found"){
+            document.getElementById("loginError").innerText = translations[currentLang].loginErrors.emailNotFound;
+        } else {
+            alert("❌ " + (currentLang==="fr" ? "Erreur" : currentLang==="ar" ? "حدث خطأ" : "Error occurred"));
+        }
+    })
+    .catch(err => console.error(err));
+});
+
+// SIGNUP FETCH
+document.getElementById("signupBtn").addEventListener("click", function(e){
+    e.preventDefault();
+    if(!validation_inscription()) return;
+
+    let formData = new FormData();
+    formData.append("nom", document.getElementById("nom").value);
+    formData.append("pre", document.getElementById("pre").value);
+    formData.append("num", document.getElementById("num").value);
+    formData.append("email", document.getElementById("email").value);
+    formData.append("add", document.getElementById("add").value);
+    formData.append("mdp", document.getElementById("mdp").value);
+
+   fetch("signup.php",{
+    method:"POST",
+    credentials: 'include', // 🔥 مهم
+    body:formData
+})
+    .then(res => res.json())
+    .then(data => {
+        if(data.status === "success"){
+            let user = {
+                id: data.id,
+                name: data.nom,
+                email: data.email
+            };
+            localStorage.setItem("user", JSON.stringify(user));
+            window.location.href = "index.html";
+        } else if(data.status === "exists"){
+            alert("❌ "+(currentLang==="fr" ? "Email existe déjà" : currentLang==="ar" ? "البريد موجود مسبقاً" : "Email already exists"));
+        } else {
+            alert("❌ "+(currentLang==="fr" ? "Erreur" : currentLang==="ar" ? "حدث خطأ" : "Error occurred"));
+        }
+    })
+    .catch(err => console.error(err));
+});ç
+function toggleDarkMode() {
+  document.body.classList.toggle("dark");
+  // حفظ حالة الداكن في localStorage
+  if (document.body.classList.contains("dark")) {
+    localStorage.setItem("darkMode", "true");
+  } else {
+    localStorage.setItem("darkMode", "false");
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Market</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+:root{
+  --c1:#3b82f6;
+  --c2:#10b981;
+}
+body {
+  background: linear-gradient(135deg, #e0f2fe, #f0f9ff);
+  transition: 0.4s;
+  color: #0f172a;
+}
+
+/* ==================== NAVBAR ==================== */
+.navbar {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(12px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  color: #0f172a;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  transition: 0.4s;
+}
+
+.navbar .logo {
+  font-size: 28px;
+  font-weight: 700;
+  text-shadow: 0 2px 10px rgba(255,255,255,0.2);
+}
+
+.navbar .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navbar .nav-links a,
+.navbar .nav-links button,
+.navbar .nav-links select {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  padding: 6px 15px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  color: inherit;
+  text-decoration: none; /* ✅ هذا هو الحل */
+}
+.navbar .nav-links a:hover,
+.navbar .nav-links button:hover,
+.navbar .nav-links select:hover {
+  background: rgba(255,255,255,0.4);
+  transform: scale(1.05);
+}
+
+/* ==================== HERO ==================== */
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 100px 20px;
+  background: linear-gradient(135deg, #3b82f6, #10b981);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+  animation: rotateLight 15s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes rotateLight {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.hero-box {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(15px);
+  padding: 50px 40px;
+  border-radius: 25px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  transition: 0.4s;
+}
+
+.hero-box:hover {
+  transform: scale(1.05);
+}
+
+.hero-box h1 {
+  font-size: 40px;
+  margin-bottom: 15px;
+  text-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.hero-box p {
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+.hero-box button {
+  padding: 14px 28px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(135deg,#ffffff,#f0f9ff);
+  color: #3b82f6;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.hero-box button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+}
+
+/* ==================== SECTIONS ==================== */
+.section-title {
+  text-align: center;
+  margin: 60px 0 30px;
+  font-size: 32px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* ==================== CATEGORIES ==================== */
+.categories {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+  padding: 0 40px 50px;
+}
+
+.category-card {
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(12px);
+  border-radius: 25px;
+  padding: 40px 20px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: #0f172a;
+  cursor: pointer;
+  transition: 0.4s;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.category-card:hover {
+  transform: translateY(-10px) scale(1.05);
+  color: #3b82f6;
+}
+
+.category-card::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: -100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
+  transition: 0.5s;
+}
+
+.category-card:hover::before {
+  left: 100%;
+}
+
+.category-icon {
+  font-size: 45px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* ==================== PRODUCTS ==================== */
+.products {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+  padding: 0 40px 50px;
+}
+
+.product-card {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  transition: 0.4s;
+}
+
+.product-card:hover {
+  transform: translateY(-10px) scale(1.05);
+}
+
+.product-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  transition: 0.3s;
+}
+
+.product-card img:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+.badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: #ec0808;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.fav {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+  font-size: 22px;
+  transition: 0.3s;
+}
+
+.fav.active {
+  color: red;
+  transform: scale(1.4);
+}
+
+.product-info {
+  padding: 20px 15px;
+  text-align: center;
+}
+
+.product-info .price {
+  color: #10b981;
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+.product-info button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 25px;
+  background: linear-gradient(135deg,#3b82f6,#10b981);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.product-info button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 28px rgba(59,130,246,0.5), 0 0 15px rgba(16,185,129,0.5);
+}
+
+/* ==================== FOOTER ==================== */
+.footer {
+  background: #0f172a;
+  color: white;
+  text-align: center;
+  padding: 25px;
+  font-size: 14px;
+}
+
+/* ==================== MEDIA QUERIES ==================== */
+@media(max-width:900px) {
+  .products, .categories {
+    grid-template-columns: repeat(2,1fr);
+  }
+}
+
+@media(max-width:600px) {
+  .products, .categories {
+    grid-template-columns: 1fr;
+    padding: 0 20px;
+  }
+  .navbar {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* ==================== DARK MODE ==================== */
+body.dark {
+  background: #0f172a;
+  color: #f1f5f9;
+}
+
+body.dark .navbar {
+  background: rgba(30,30,30,0.8);
+  color: #f1f5f9;
+}
+
+body.dark .product-card,
+body.dark .category-card {
+  background: rgba(30,30,30,0.5);
+  color: #f1f5f9;
+}
+
+body.dark .hero-box {
+  background: rgba(0,0,0,0.35);
+  color: white;
+}
+/* ================= SEARCH BOX PRO ================= */
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Input */
+.search-box input {
+  width: 220px;
+  padding: 10px 40px 10px 15px;
+  border-radius: 30px;
+  border: none;
+  outline: none;
+
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+
+  font-size: 14px;
+  color: #0f172a;
+
+  transition: 0.4s;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Placeholder */
+.search-box input::placeholder {
+  color: #64748b;
+  transition: 0.3s;
+}
+
+/* Icon */
+.search-box::after {
+  content: "🔍";
+  position: absolute;
+  right: 12px;
+  font-size: 16px;
+  opacity: 0.7;
+}
+
+/* Hover */
+.search-box input:hover {
+  background: rgba(255,255,255,0.4);
+}
+
+/* Focus (🔥 تأثير احترافي) */
+.search-box input:focus {
+  width: 280px;
+  background: rgba(255,255,255,0.6);
+  box-shadow: 0 10px 30px rgba(59,130,246,0.3);
+}
+
+/* لما يكتب المستخدم */
+.search-box input:focus::placeholder {
+  opacity: 0.5;
+}
+@media(max-width:600px) {
+  .search-box input {
+    width: 100%;
+  }
+
+  .search-box input:focus {
+    width: 100%;
+  }
+}
+.avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+  object-fit: cover;
+  border: 2px solid white;
+}
+.avatar-circle {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: #3b82f6;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.user-menu {
+  position: relative;
+}
+
+.dropdown {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  min-width: 150px;
+  z-index: 999;
+}
+
+.dropdown button {
+  width: 100%;
+  margin-top: 5px;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  background: #f1f5f9;
+  cursor: pointer;
+}
+
+.dropdown button:hover {
+  background: #e2e8f0;
+}
+
+.hidden {
+  display: none;
+}
+/* 🌙 DARK MODE DROPDOWN FIX */
+body.dark .dropdown {
+  background: #1e293b; /* خلفية داكنة */
+  color: #f1f5f9;       /* نص أبيض */
+}
+
+body.dark .dropdown p {
+  color: #f1f5f9;
+}
+
+body.dark .dropdown button {
+  background: #334155;
+  color: white;
+}
+
+body.dark .dropdown button:hover {
+  background: #475569;
+}
+body.dark .avatar-circle {
+  border: 2px solid #f1f5f9;
+}
+  </style>
+</head>
+
+<body> <!-- NAVBAR -->
+  <div class="navbar">
+    <div class="logo">Smart Market</div>
+    <div class="nav-links">
+      <div class="search-box"> <input type="text" id="searchInput" placeholder="Search..."> </div> <a
+        href="index.html" id="navHome">Accueil</a> <a href="products.html" id="navProducts">Produits</a> 
+        <div id="authArea"></div> <select id="langSwitcher" onchange="changeLanguage()">
+        <option value="fr">FR</option>
+        <option value="en">EN</option>
+        <option value="ar">AR</option>
+      </select>
+      <button onclick="toggleDarkMode()">🌙</button>
+      <div class="cart" onclick="window.location.href='cart.html'">🛒 0</div>
+    </div>
+   </div> <!-- HERO -->
+  <div class="hero">
+    <div class="hero-box">
+      <h1 id="heroTitle">Bienvenue sur Smart Market</h1>
+      <p id="heroDesc">Marketplace intelligente multi-vendeurs</p> <button id="heroBtn">Explorer les Produits</button>
+    </div>
+  </div>
+  <h2 class="section-title" id="categoriesTitle">Catégories</h2>
+  <div class="categories">
+    <div class="category-card"> <span class="category-icon">💻</span> <span class="cat-text"
+        data-key="electronique">Électronique</span> </div>
+    <div class="category-card"> <span class="category-icon">👕</span> <span class="cat-text" data-key="mode">Mode</span>
+    </div>
+    <div class="category-card"> <span class="category-icon">🏠</span> <span class="cat-text"
+        data-key="maison">Maison</span> </div>
+    <div class="category-card"> <span class="category-icon">🌿</span> <span class="cat-text" data-key="local">Produits
+        Locaux</span> </div>
+  </div>
+      <h2 class="section-title" id="sectionTitle">Produits Populaires</h2>
+  <div class="products">
+    <div class="product-card" onclick="goToProduct('1')">
+      <div class="badge">Nouveau</div>
+      <div class="fav" onclick="toggleFav(this)">❤️</div> <img
+        src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8">
+      <div class="product-info">
+        <h4 class="product-name" data-key="laptop">Ordinateur Portable</h4>
+        <p class="price">120000 DA</p> <button class="add-btn" onclick="event.stopPropagation(); addCart('Ordinateur Portable',120000)">Ajouter
+          au panier</button>
+      </div>
+    </div>
+    <div class="product-card" onclick="goToProduct('5')">
+      <div class="badge">Promo</div>
+      <div class="fav" onclick="toggleFav(this)">❤️</div> <img
+        src="https://i.pinimg.com/1200x/58/01/02/580102109d76a8aa631cc584069916c4.jpg">
+      <div class="product-info">
+        <h4 class="product-name" data-key="watch">Smart Watch</h4>
+        <p class="price">8500 DA</p> <button class="add-btn" onclick="event.stopPropagation();addCart('Smart watch',8500)">Ajouter au
+          panier</button>
+      </div>
+      </div>
+      <div class="product-card" onclick="goToProduct('3')">
+      <div class="fav" onclick="toggleFav(this)">❤️</div> <img
+        src="https://i.pinimg.com/originals/4e/a5/c8/4ea5c8c480625906a692bafa65ba7aad.jpg">
+      <div class="product-info">
+        <h4 class="product-name" data-key="headset">Casque Audio</h4>
+        <p class="price">6700 DA</p> <button class="add-btn" onclick="event.stopPropagation();addCart('Casque Audio',6700)">Ajouter au
+          panier</button>
+      </div>
+    </div>
+      <div class="product-card" onclick="goToProduct('4')">
+      <div class="fav" onclick="toggleFav(this)">❤️</div> <img
+        src="https://i.pinimg.com/1200x/26/be/56/26be56634ad9773c9d8f6315cac2cba7.jpg">
+      <div class="product-info">
+        <h4 class="product-name" data-key="phone">Smartphone</h4>
+        <p class="price">15000 DA</p> <button class="add-btn" onclick="event.stopPropagation();addCart('Smartphone',15000)">Ajouter au
+          panier</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer">© 2026 Smart Market | Computer Science Project</div>
+ <script>
+  // Translations
+  const translations = {
+    fr: {
+      navHome: "Accueil",
+      navProducts: "Produits",
+      navLogin: "Connexion",
+      heroTitle: "Bienvenue sur Smart Market",
+      heroDesc: "Marketplace intelligente multi-vendeurs",
+      heroBtn: "Explorer les Produits",
+      sectionTitle: "Produits Populaires",
+      categoriesTitle: "Catégories",
+      laptop: "Ordinateur Portable",
+      watch: "Montre Intelligente",
+      headset: "Casque Audio",
+      phone: "Smartphone",
+      electronique: "Électronique",
+      mode: "Mode",
+      maison: "Maison",
+      local: "Produits Locaux",
+      addCart: "Ajouter au panier",
+      searchPlaceholder: "Recherche...",
+      profileBtn: "Profil",       // ✅ هنا
+      logoutBtn: "Déconnexion"   
+    },
+    en: {
+      navHome: "Home",
+      navProducts: "Products",
+      navLogin: "Login",
+      heroTitle: "Welcome to Smart Market",
+      heroDesc: "Intelligent multi-vendor marketplace",
+      heroBtn: "Explore Products",
+      sectionTitle: "Popular Products",
+      categoriesTitle: "Categories",
+      laptop: "Laptop",
+      watch: "Smart Watch",
+      headset: "Headphones",
+      phone: "Smartphone",
+      electronique: "Electronics",
+      mode: "Fashion",
+      maison: "Home",
+      local: "Local Products",
+      addCart: "Add to Cart",
+      searchPlaceholder: "Search...",
+       profileBtn: "Profile",       // ✅ هنا
+      logoutBtn: "Logout"   
+    },
+    ar: {
+      navHome: "الرئيسية",
+      navProducts: "المنتجات",
+      navLogin: "تسجيل الدخول",
+      heroTitle: "مرحبًا بك في سمارت ماركت",
+      heroDesc: "منصة ذكية متعددة البائعين",
+      heroBtn: "استكشاف المنتجات",
+      sectionTitle: "المنتجات الأكثر شهرة",
+      categoriesTitle: "الفئات",
+      laptop: "حاسوب محمول",
+      watch: "ساعة ذكية",
+      headset: "سماعات",
+      phone: "هاتف ذكي",
+      electronique: "إلكترونيات",
+      mode: "موضة",
+      maison: "منزل",
+      local: "منتجات محلية",
+      addCart: "أضف إلى السلة",
+      searchPlaceholder: "ابحث...",
+      profileBtn: "الملف الشخصي", 
+      logoutBtn: "تسجيل الخروج"    
+    }
+  };
+
+function toggleMenu() {
+  document.getElementById("dropdownMenu").classList.toggle("hidden");
+}
+
+function logout() {
+  localStorage.removeItem("user");
+  window.location.reload();
+}
+
+function goProfile() {
+  window.location.href = "profile.html";
+}
+
+document.addEventListener("click", function(e){
+  let menu = document.getElementById("dropdownMenu");
+  let avatar = document.querySelector(".avatar-circle");
+
+  if(menu && !menu.contains(e.target) && (!avatar || !avatar.contains(e.target))){
+    menu.classList.add("hidden");
+  }
+});
+
+function applyLanguage(lang) {
+  document.getElementById("navHome").innerText = translations[lang].navHome;
+  document.getElementById("navProducts").innerText = translations[lang].navProducts;
+  document.getElementById("heroTitle").innerText = translations[lang].heroTitle;
+  document.getElementById("heroDesc").innerText = translations[lang].heroDesc;
+  document.getElementById("heroBtn").innerText = translations[lang].heroBtn;
+  document.getElementById("sectionTitle").innerText = translations[lang].sectionTitle;
+  document.getElementById("categoriesTitle").innerText = translations[lang].categoriesTitle;
+  document.getElementById("searchInput").placeholder = translations[lang].searchPlaceholder;
+
+  document.querySelectorAll(".product-name").forEach(el => {
+    el.innerText = translations[lang][el.dataset.key];
+  });
+
+  document.querySelectorAll(".add-btn").forEach(el => {
+    el.innerText = translations[lang].addCart;
+  });
+
+  document.querySelectorAll(".cat-text").forEach(el => {
+    el.innerText = translations[lang][el.dataset.key];
+  });
+
+  document.body.setAttribute("dir", lang === "ar" ? "right" : "left");
+  document.body.style.textAlign = (lang === 'ar') ? 'right' : 'left';
+}
+
+  function changeLanguage() {
+  const lang = document.getElementById("langSwitcher").value;
+  localStorage.setItem('lang', lang);
+  applyLanguage(lang);
+  updateAuthUI(); // تحديث الـ avatar/profile
+}
+
+  // Favorites
+function toggleFav(el){
+  el.classList.toggle('active');
+
+  let favs = JSON.parse(localStorage.getItem("favs")) || [];
+  let product = el.parentElement.querySelector(".product-name").innerText;
+
+  if(favs.includes(product)){
+    favs = favs.filter(p => p !== product);
+  } else {
+    favs.push(product);
+  }
+
+  localStorage.setItem("favs", JSON.stringify(favs));
+}
+
+// Cart
+function addCart(name, price){
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let existing = cart.find(item => item.name === name);
+
+  if(existing){existing.quantity += 1;}
+  else {cart.push({name:name,price:price,quantity:1});}
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartCount();
+
+  alert(name + " تمت إضافته إلى السلة 🛒");
+}
+
+function updateCartCount() {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let total = cart.reduce((sum, item) => sum + item.quantity, 0);
+  document.querySelector('.cart').innerText = '🛒 ' + total;
+}
+
+// DOMContentLoaded
+window.addEventListener('DOMContentLoaded', () => {
+  const savedC1 = localStorage.getItem('themeC1') || '#3b82f6';
+  const savedC2 = localStorage.getItem('themeC2') || '#10b981';
+  document.documentElement.style.setProperty('--c1', savedC1);
+  document.documentElement.style.setProperty('--c2', savedC2);
+
+  const lang = localStorage.getItem('lang') || 'fr';
+  document.getElementById("langSwitcher").value = lang;
+  applyLanguage(lang);
+  updateCartCount();
+  updateAuthUI();
+
+  document.getElementById("heroBtn").onclick = () => {
+    window.location.href = "products.html";
+  };
+
+  // Categories click
+  document.querySelectorAll(".category-card").forEach(card => {
+    card.addEventListener("click", () => {
+      const catKey = card.querySelector(".cat-text").dataset.key;
+      window.location.href = `products.html?category=${catKey}`;
+    });
+  });
+
+  function getSelectedCategory() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('category'); 
+  }
+  const category = getSelectedCategory();
+  console.log(category);
+
+  // Search Enter
+  const searchInput = document.getElementById("searchInput");
+  if (searchInput) {
+    searchInput.addEventListener("keypress", function(e) {
+      if (e.key === "Enter") {
+        let value = this.value.trim();
+        if (value !== "") {
+          window.location.href = "products.html?search=" + encodeURIComponent(value);
+        }
+      }
+    });
+  }
+});
+
+// Dark Mode Toggle
+function toggleDarkMode() {
+  document.body.classList.toggle("dark");
+  if (document.body.classList.contains("dark")) {
+    localStorage.setItem("darkMode", "true");
+  } else {
+    localStorage.setItem("darkMode", "false");
+  }
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  const darkMode = localStorage.getItem("darkMode");
+  if (darkMode === "true") {
+    document.body.classList.add("dark");
+  }
+});
+
+ function updateAuthUI() {
+  let user = JSON.parse(localStorage.getItem("user"));
+  const authArea = document.getElementById("authArea");
+  const lang = localStorage.getItem('lang') || 'fr';
+ // اللون المحفوظ
+
+  if (user) {
+    let letter = user.name.charAt(0).toUpperCase();
+    authArea.innerHTML = `
+      <div class="user-menu">
+        <div class="avatar-circle" onclick="toggleMenu()">
+          ${letter}
+        </div>
+        <div id="dropdownMenu" class="dropdown hidden">
+          <p>${user.name}</p>
+          <button onclick="goProfile()">${translations[lang].profileBtn}</button>
+          <button onclick="logout()">${translations[lang].logoutBtn}</button>
+        </div>
+      </div>
+    `;
+    // تطبيق اللون مباشرة بعد إنشاء الـ avatar
+    const avatar = authArea.querySelector('.avatar-circle');
+    let avatarTheme = localStorage.getItem("avatarTheme") || "#3b82f6";
+avatar.style.background = avatarTheme;
+  } else {
+    authArea.innerHTML = `<a href="login.html">${translations[lang].navLogin}</a>`;
+  }
+}
+function goToProduct(productId){
+  window.location.href = "product.html?id=" + productId;
+}
+</script>
+</body>
+</html>

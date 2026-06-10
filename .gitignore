@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Environment / secrets
+.env
+*.env
+backend/config/db.local.php
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+error_log
+
+# PHP sessions
+/tmp/

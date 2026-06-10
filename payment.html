@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>
+if (localStorage.getItem("darkMode") === "enabled") {
+    document.documentElement.classList.add("dark-mode");
+}
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment - Smart Market</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+  .dark-mode {
+    background-color: #121212 !important;
+    color: #ffffff !important;
+}
+
+.dark-mode input,
+.dark-mode select,
+.dark-mode textarea,
+.dark-mode button {
+    background-color: #1e1e1e !important;
+    color: #ffffff !important;
+}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background:linear-gradient(135deg,#dbeafe,#f0fdf4,#fef9c3);
+  min-height:100vh;
+}
+
+/* CONTAINER */
+.container{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:40px;
+}
+
+/* CARD */
+.card{
+  width:900px;
+  display:flex;
+  border-radius:25px;
+  overflow:hidden;
+  background:rgba(255,255,255,0.6);
+  backdrop-filter:blur(12px);
+  box-shadow:0 20px 50px rgba(0,0,0,0.1);
+  animation:fade 0.5s ease;
+}
+
+@keyframes fade{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* LEFT */
+.left{
+  width:40%;
+  padding:25px;
+}
+
+.left h2{
+  color:#1e293b;
+  margin-bottom:15px;
+}
+
+.product{
+  background:white;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 10px 20px rgba(0,0,0,0.05);
+  margin-bottom:15px;
+}
+
+.product img{
+  width:100%;
+}
+
+.product-info{
+  padding:10px;
+}
+
+.price{
+  color:#059669;
+  font-weight:bold;
+}
+
+/* RIGHT */
+.right{
+  width:60%;
+  padding:25px;
+}
+
+h2{
+  color:#1e293b;
+  margin-bottom:15px;
+}
+
+.input-box{
+  margin-bottom:12px;
+}
+
+label{
+  font-size:13px;
+  color:#334155;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  margin-top:5px;
+  border-radius:12px;
+  border:1px solid #e2e8f0;
+  outline:none;
+}
+
+input:focus{
+  border-color:#3b82f6;
+}
+
+/* PAYMENT CARDS */
+.methods{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin:15px 0;
+}
+
+.method{
+  background:white;
+  border-radius:15px;
+  padding:18px;
+  text-align:center;
+  cursor:pointer;
+  transition:0.3s;
+  border:2px solid transparent;
+  box-shadow:0 5px 15px rgba(0,0,0,0.05);
+}
+
+.method i{
+  font-size:28px;
+  color:#3b82f6;
+  margin-bottom:6px;
+}
+
+.method p{
+  font-weight:600;
+  color:#1e293b;
+}
+
+.method:hover{
+  transform:translateY(-5px);
+  border-color:#3b82f6;
+}
+
+.method.active{
+  border-color:#10b981;
+  background:#ecfdf5;
+}
+
+/* BUTTON */
+.btn{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(135deg,#3b82f6,#10b981);
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+}
+
+/* SUCCESS */
+.success{
+  display:none;
+  text-align:center;
+  padding:40px;
+}
+
+.success i{
+  font-size:60px;
+  color:#10b981;
+}
+
+.success h1{
+  color:#1e293b;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .card{
+    flex-direction:column;
+  }
+  .left,.right{
+    width:100%;
+  }
+}
+/* ===== DARK MODE FULL FIX ===== */
+body.dark{
+  background:#0f172a !important;
+  color:#f1f5f9 !important;
+}
+
+body.dark .card{
+  background:rgba(30,30,30,0.7) !important;
+}
+
+body.dark .left h2,
+body.dark h2,
+body.dark h3,
+body.dark label,
+body.dark p{
+  color:#f1f5f9 !important;
+}
+
+body.dark .product{
+  background:#1e293b !important;
+}
+
+body.dark .method{
+  background:#1e293b !important;
+  color:white !important;
+}
+
+body.dark input{
+  background:#0f172a !important;
+  color:white !important;
+  border:1px solid #334155 !important;
+}
+/* تحسين وتوسيط النص */
+.left{
+  text-align: center; /* توسيط كل المحتوى */
+}
+
+.left h2{
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.left p{
+  font-size: 20px;        /* تكبير الخط */
+  font-weight: 600;
+  margin: 10px auto;
+  padding: 10px 15px;
+  border-radius: 12px;
+  width: 80%;
+  
+  background: rgba(255,255,255,0.5);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+/* خطأ في الإدخال */
+.input-error{
+  border:2px solid red !important;
+  background:#ffe6e6;
+}
+body.dark input::placeholder {
+  color: #94a3b8; /* لون باهت للنص المساعد في الوضع الليلي */
+}
+
+body.dark .left p {
+  background: rgba(255, 255, 255, 0.1); /* تجعل المربعات شفافة وجميلة في الوضع الليلي */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<!-- LEFT -->
+<div class="left">
+  <h2 id="orderTitle">Commande</h2>
+
+
+
+  <p id="p1">✔ Livraison rapide</p>
+  <p id="p2">✔ Paiement sécurisé</p>
+  <p id="p3">✔ Garantie incluse</p>
+</div>
+
+<!-- RIGHT -->
+<div class="right" id="payBox">
+
+<h2 id="payTitle">Paiement</h2>
+
+<div class="input-box">
+<label id="nameLabel">Nom</label>
+<input type="text" id ="name"placeholder="enter your name">
+</div>
+
+<div class="input-box">
+<label id="cardLabel">Numéro de carte</label>
+<input type="text" id="card"placeholder="1234 5678 9012 3456">
+</div>
+
+<div style="display:flex; gap:10px;">
+<div class="input-box">
+<label id="expLabel">Exp</label>
+<input type="text"id="exp" placeholder="MM/YY">
+</div>
+
+<div class="input-box">
+<label>CVV</label>
+<input type="password" id="c" placeholder="***">
+</div>
+</div>
+
+<h3 id="methodTitle">Méthode de paiement</h3>
+
+<div class="methods">
+
+<div class="method" onclick="select(this)">
+<i class="fa-brands fa-cc-visa"></i>
+<p>Visa</p>
+</div>
+<div class="method" onclick="select(this)">
+<i class="fa-brands fa-cc-mastercard"></i>
+<p>MasterCard</p>
+</div>
+
+<div class="method" onclick="select(this)">
+<i class="fa-brands fa-paypal"></i>
+<p>PayPal</p>
+</div>
+
+</div>
+
+<button class="btn" id="payBtn" onclick="pay()">Payer</button>
+
+</div>
+
+</div>
+
+<!-- SUCCESS -->
+<div class="success" id="successBox">
+<i class="fa-solid fa-circle-check"></i>
+<h1 id="successTitle">Paiement réussi 🎉</h1>
+<p id="successText">Merci pour votre commande</p>
+</div>
+
+</div>
+
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+
+    // ✅ Dark Mode FIX (تصحيح فقط)
+    const darkMode = localStorage.getItem("darkMode");
+
+    if (darkMode === "true") {
+        document.body.classList.add("dark");
+    }
+
+    // Language
+    const lang = localStorage.getItem("lang");
+    if(!lang) return;
+
+    const t = {
+        fr: { orderTitle:"Commande", payTitle:"Paiement", nameLabel:"Nom", cardLabel:"Numéro de carte", expLabel:"Exp", methodTitle:"Méthode de paiement", payBtn:"Payer", p1:"✔️ Livraison rapide", p2:"✔️ Paiement sécurisé", p3:"✔️ Garantie incluse", successTitle:"Paiement réussi 🎉", successText:"Merci pour votre commande" },
+        en: { orderTitle:"Order", payTitle:"Payment", nameLabel:"Name", cardLabel:"Card Number", expLabel:"Expiry", methodTitle:"Payment Method", payBtn:"Pay Now", p1:"✔️ Fast Delivery", p2:"✔️ Secure Payment", p3:"✔️ Warranty Included", successTitle:"Payment Successful 🎉", successText:"Thank you for your order" },
+        ar: { orderTitle:"الطلب", payTitle:"الدفع", nameLabel:"الاسم", cardLabel:"رقم البطاقة", expLabel:"تاريخ الانتهاء", methodTitle:"طريقة الدفع", payBtn:"ادفع الآن", p1:"✔️ توصيل سريع", p2:"✔️ دفع آمن", p3:"✔️ ضمان شامل", successTitle:"تم الدفع بنجاح 🎉", successText:"شكراً لطلبك" }
+    };
+
+    const tr = t[lang] || t.fr;
+
+    function set(id, value){ 
+        const el = document.getElementById(id); 
+        if(el) el.innerText = value; 
+    }
+
+    set("orderTitle", tr.orderTitle);
+    set("payTitle", tr.payTitle);
+    set("nameLabel", tr.nameLabel);
+    set("cardLabel", tr.cardLabel);
+    set("expLabel", tr.expLabel);
+    set("methodTitle", tr.methodTitle);
+    set("payBtn", tr.payBtn);
+    set("p1", tr.p1);
+    set("p2", tr.p2);
+    set("p3", tr.p3);
+    set("successTitle", tr.successTitle);
+    set("successText", tr.successText);
+
+    document.body.dir = (lang === "ar") ? "rtl" : "ltr";
+
+    // عرض معلومات الطلب
+    const order = JSON.parse(localStorage.getItem("pendingOrder"));
+
+    if(order){
+        let total = 0;
+
+        order.cart.forEach(item => {
+            total += item.price * item.quantity;
+        });
+
+        document.querySelector(".left").innerHTML += `
+            <p><b>👤 ${order.name}</b></p>
+            <p>📞 ${order.phone}</p>
+            <p>📍 ${order.address}</p>
+            <p style="color:#10b981; font-size:22px;">💰 Total: ${total} DA</p>
+        `;
+    }
+});
+
+let selectedMethod = null;
+
+function select(el){
+    document.querySelectorAll(".method").forEach(m => m.classList.remove("active"));
+    el.classList.add("active");
+    selectedMethod = el;
+}
+
+function pay(){
+
+    const name = document.getElementById("name");
+    const card = document.getElementById("card");
+    const exp = document.getElementById("exp");
+    const cvv = document.getElementById("c");
+
+    let valid = true;
+
+    // إزالة الأخطاء
+    name.classList.remove("input-error");
+    card.classList.remove("input-error");
+    exp.classList.remove("input-error");
+    cvv.classList.remove("input-error");
+
+    // تحقق
+    if(name.value.trim() === ""){
+        name.classList.add("input-error");
+        valid = false;
+    }
+
+    if(card.value.trim() === ""){
+        card.classList.add("input-error");
+        valid = false;
+    }
+
+    if(exp.value.trim() === ""){
+        exp.classList.add("input-error");
+        valid = false;
+    }
+
+    if(cvv.value.trim() === ""){
+        cvv.classList.add("input-error");
+        valid = false;
+    }
+
+    if(!selectedMethod){
+        valid = false;
+    }
+
+    if(!valid){
+        alert("⚠️ يرجى ملء جميع الحقول واختيار طريقة الدفع");
+        return;
+    }
+
+    // 🟢 جلب الطلب
+    const order = JSON.parse(localStorage.getItem("pendingOrder"));
+
+    // اسم طريقة الدفع
+    let methodName = selectedMethod ? selectedMethod.innerText.trim() : "unknown";
+
+    // حساب total
+    let total = 0;
+    order.cart.forEach(item => {
+        total += item.price * item.quantity;
+    });
+
+    // إضافة الدفع
+    order.payment = {
+        method: methodName,
+        amount: total
+    };
+    
+    // إرسال للسيرفر
+    fetch("placeOrder.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(order)
+    })
+    .then(res => res.text())
+    .then(data => {
+
+        if(data === "success"){
+
+            document.getElementById("payBox").style.display = "none";
+            document.getElementById("successBox").style.display = "block";
+
+            localStorage.removeItem("cart");
+            localStorage.removeItem("pendingOrder");
+
+        } else {
+            alert("❌ Error saving order");
+        }
+
+    });
+
+    localStorage.removeItem("checkoutCart");
+}
+</script>
+</body>
+</html>

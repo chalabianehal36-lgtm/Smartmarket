@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Détails Produit</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f8fafc;
+  --card: rgba(255,255,255,0.85);
+  --text: #1e293b;
+  --primary: #3b82f6;
+  --accent: #10b981;
+  --secondary: #64748b;
+  --shadow: rgba(0,0,0,0.1);
+}
+
+body.dark {
+  --bg: #020617;
+  --card: #0f172a;
+  --text: #f1f5f9;
+  --primary: #10b981;
+  --secondary: #94a3b8;
+  --shadow: rgba(0,0,0,0.4);
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(-45deg, #dbeafe, #f0fdf4, #e0f2fe, #fef9c3);
+  background-size: 400% 400%;
+  animation: gradientMove 10s ease infinite;
+}
+@keyframes gradientMove {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+/* NAVBAR */
+.navbar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 30px;
+  background:var(--card);
+  backdrop-filter:blur(12px);
+  box-shadow:0 6px 20px var(--shadow);
+  position:sticky;
+  top:0;
+  z-index:100;
+  border-bottom-left-radius:20px;
+  border-bottom-right-radius:20px;
+}
+
+.navbar a, .navbar button {
+  text-decoration:none;
+  color:var(--text);
+  font-weight:500;
+  margin-left:10px;
+  border:none;
+  background:none;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.navbar a:hover, .navbar button:hover {
+  color: var(--primary);
+  transform: scale(1.05);
+}
+
+/* CONTAINER HORIZONTAL */
+.container {
+  max-width:1000px;
+  margin:30px auto;
+  display:flex;
+  flex-direction:row;
+  gap:30px;
+  padding:20px;
+  background:var(--card);
+  border-radius:20px;
+  backdrop-filter:blur(20px);
+  box-shadow:0 15px 35px var(--shadow);
+}
+
+.container:hover {
+  transform: translateY(-5px);
+}
+
+/* IMAGE */
+.image-box {
+  flex:1;
+  max-width:450px;
+  max-height:400px;
+  position:relative;
+  overflow:hidden;
+  border-radius:20px;
+  background: #fff;
+}
+
+.image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 20px;
+  transition: transform 0.4s, filter 0.4s;
+  background-color: #f8fafc;
+}
+.image-box:hover img {
+  transform: scale(1.08);
+  filter: brightness(1.1);
+}
+
+/* BADGE */
+.badge {
+  position:absolute;
+  top:15px;
+  left:15px;
+  background:#ef4444;
+  color:white;
+  padding:6px 14px;
+  border-radius:12px;
+  font-size:13px;
+  font-weight:600;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* INFO */
+.info {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  font-size:14px;
+}
+.actions label {
+  color: var(--text);
+  font-size: 14px;
+  margin-right: 5px;
+}
+h2 {
+  font-size:28px;
+  font-weight:700;
+  line-height:1.2;
+  color: var(--text);
+}
+
+.price {
+  font-size:22px;
+  font-weight:bold;
+  color:var(--primary);
+}
+
+#ratingStars span {
+  color: #ccc;
+  cursor: pointer;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+
+.desc {
+  font-size:14px;
+  line-height:1.5;
+  color: var(--secondary);
+}
+
+select, input {
+  padding:10px 12px;
+  font-size:14px;
+  border-radius:12px;
+  border:1px solid #ccc;
+  margin-bottom:15px;
+  background:#f1f5f9;
+  transition:0.3s;
+}
+
+select:focus, input:focus {
+  outline:none;
+  border-color: var(--primary);
+  box-shadow: 0 0 8px rgba(59,130,246,0.3);
+}
+
+button#addCartBtn {
+  padding:8px 16px;
+  font-size:13px;
+  border-radius:20px;
+  border:none;
+  background: linear-gradient(135deg,#3b82f6,#2563eb);
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 8px 20px rgba(59,130,246,0.3);
+}
+
+button#addCartBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 28px rgba(59,130,246,0.4);
+}
+
+.stock {
+  font-size:14px;
+  color:var(--accent);
+  font-weight:500;
+}
+
+.color-options {
+  display:flex;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.color-options input[type="radio"] {
+  display:none; 
+}
+
+.color-options label {
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  cursor:pointer;
+  border:2px solid transparent;
+  transition: transform 0.3s, border 0.3s, box-shadow 0.3s;
+  display:inline-block;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.color-options input[type="radio"]:checked + label {
+  border:2px solid var(--primary);
+  transform: scale(1.2);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .container {
+    flex-direction:column;
+    padding:15px;
+    gap:15px;
+  }
+
+  h2 { font-size:24px; 
+        text-align:italic}
+  .price { font-size:20px; }
+  button#addCartBtn { width:100%; font-size:14px; }
+  .color-options label { width:28px; height:28px; }
+  .image-box { max-height:300px; }
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #10b981;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 25px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  font-weight: bold;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+#quantityInput {
+  width: 80px;
+  padding: 6px 8px;
+  font-size: 13px;
+  text-align: center;
+}
+#quantityInput, #addCartBtn {
+  display: inline-block;
+  margin-right: 10px;
+}
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.color-options {
+  margin-bottom: 20px;
+}
+
+.actions {
+  margin-top: 10px;
+}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <div><a href="products.html">← Retour aux produits</a></div>
+  <div>
+    <a href="cart.html">🛒 Panier</a>
+    <button id="darkToggle">🌙 Dark Mode</button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="image-box">
+    <div class="badge">NEW</div>
+    <img id="productImg" src="https://via.placeholder.com/450x400" alt="Produit">
+  </div>
+  <div class="info">
+    <h2 id="productName" ></h2>
+    <p class="price" id="productPrice"></p>
+    <div id="ratingStars">
+       <span>&#9733;</span>
+       <span>&#9733;</span>
+       <span>&#9733;</span>
+       <span>&#9733;</span>
+       <span>&#9733;</span>
+    </div>
+    <p id="productDesc" class="desc"></p>
+    <p class="stock">✔ Disponible</p>
+    <div class="color-options" id="colorSelect"></div>
+    <div class="actions">
+      <label for="quantityInput">Quantité:</label>
+      <input type="number" id="quantityInput" value="1" min="1">
+      <button id="addCartBtn">Ajouter au panier</button>
+    </div>
+  </div>
+</div>
+<script>
+
+// ==================== الإعدادات العامة ====================
+const lang = localStorage.getItem("lang") || "fr";
+let currentProduct = null; // مهم جداً
+
+// ==================== ترجمة اسم المنتج ====================
+function getName(product) {
+
+  // ✅ إذا عندك أعمدة في DB (name_en, name_ar...)
+  if(product["name_" + lang]){
+    return product["name_" + lang];
+  }
+
+  // ✅ fallback (ترجمة يدوية)
+  const translatedNames = {
+    "Ordinateur Portable": {en:"Laptop", ar:"حاسوب محمول"},
+  "Casque Audio": {en:"Headphones", ar:"سماعات"},
+  "Smartphone": {en:"Smartphone", ar:"هاتف ذكي"},
+  "Smart Watch": {en:"Smart Watch", ar:"ساعة ذكية"},
+  "Tablette": {en:"Tablet", ar:"جهاز لوحي"},
+  "Écouteurs sans fil": {en:"Wireless Earbuds", ar:"سماعات لاسلكية"},
+  "Clé USB": {en:"USB Flash Drive", ar:"فلاش USB"},
+  "Disque dur externe": {en:"External Hard Drive", ar:"قرص صلب خارجي"},
+  "Projecteur": {en:"Projector", ar:"بروجكتور"},
+  "Imprimante": {en:"Printer", ar:"طابعة"},
+  "Clavier Gaming": {en:"Gaming Keyboard", ar:"لوحة مفاتيح ألعاب"},
+  "Souris Sans Fil": {en:"Wireless Mouse", ar:"فأرة لاسلكية"},
+  "Écran PC": {en:"Monitor", ar:"شاشة"},
+  "Webcam HD": {en:"HD Webcam", ar:"كاميرا ويب"},
+  "T-shirt": {en:"T-shirt", ar:"قميص"},
+  "Robe": {en:"Dress", ar:"فستان"},
+  "Chaussures": {en:"Shoes", ar:"أحذية"},
+  "Jupe": {en:"Skirt", ar:"تنورة"},
+  "Veste": {en:"Jacket", ar:"سترة"},
+  "Casquette": {en:"Cap", ar:"قبعة"},
+  "Lunettes de soleil": {en:"Sunglasses", ar:"نظارات شمسية"},
+  "Sac à dos": {en:"Backpack", ar:"حقيبة ظهر"},
+  "Ceinture": {en:"Belt", ar:"حزام"},
+  "Pantalon": {en:"Pants", ar:"بنطال"},
+  "Montre Classique": {en:"Classic Watch", ar:"ساعة كلاسيكية"},
+  "Pull Hiver": {en:"Winter Sweater", ar:"سترة شتوية"},
+  "accessoires": {en:"Accessories", ar:"إكسسوارات"},
+  "Sandales": {en:"Sandals", ar:"صنادل"},
+  "Sac à main": {en:"Handbag", ar:"حقيبة يد"},
+  "Chaise": {en:"Chair", ar:"كرسي"},
+  "Table": {en:"Table", ar:"طاولة"},
+  "Lampe": {en:"Lamp", ar:"مصباح"},
+  "Canapé": {en:"Sofa", ar:"أريكة"},
+  "Commode": {en:"Dresser", ar:"خزانة"},
+  "Bibliothèque": {en:"Bookshelf", ar:"مكتبة"},
+  "Tapis": {en:"Carpet", ar:"سجاد"},
+  "Rideaux": {en:"Curtains", ar:"ستائر"},
+  "Miroir": {en:"Mirror", ar:"مرآة"},
+  "Horloge murale": {en:"Wall Clock", ar:"ساعة حائط"},
+  "Lit Double": {en:"Double Bed", ar:"سرير مزدوج"},
+  "Oreiller": {en:"Pillow", ar:"وسادة"},
+  "Ventilateur": {en:"Fan", ar:"مروحة"},
+  "Climatiseur": {en:"Air Conditioner", ar:"مكيف"},
+  "Miel Naturel": {en:"Natural Honey", ar:"عسل طبيعي"},
+  "Huile d'olive": {en:"Olive Oil", ar:"زيت زيتون"},
+  "Fromage artisanal": {en:"Artisan Cheese", ar:"جبن تقليدي"},
+  "Confiture maison": {en:"Homemade Jam", ar:"مربى منزلي"},
+  "Yaourt local": {en:"Local Yogurt", ar:"زبادي محلي"},
+  "Pain artisanal": {en:"Artisan Bread", ar:"خبز تقليدي"},
+  "Beurre frais": {en:"Fresh Butter", ar:"زبدة طازجة"},
+  "Jus naturel": {en:"Natural Juice", ar:"عصير طبيعي"},
+  "Épices locales": {en:"Local Spices", ar:"توابل محلية"},
+  "Chocolat artisanal": {en:"Artisan Chocolate", ar:"شوكولاتة تقليدية"},
+  "Dattes Deglet Nour":{en:"Deglet Nour dates", ar:"تمور دقلة نور"},
+  "Couscous artisanal":{en:"Artisanal couscous", ar:"الكسكس المصنوع يدوياً"},
+  "Figue sèche":{en:"Dried fig", ar:"التين المجفف"},
+  "Olives locales":{en:"Local olives", ar:"ازيتون محلي"}
+  };
+
+  return translatedNames[product.name]?.[lang] || product.name;
+}
+
+// ==================== الترجمات العامة ====================
+const translations = {
+  fr: {back:"← Retour aux produits", cart:"🛒 Panier", dark:"🌙 Mode sombre", qty:"Quantité:", add:"Ajouter au panier", desc:"Description", stock:"✔ Disponible", added:"ajouté au panier", notFound:"Produit introuvable !"},
+  en: {back:"← Back to products", cart:"🛒 Cart", dark:"🌙 Dark Mode", qty:"Quantity:", add:"Add to Cart", desc:"Description", stock:"✔ Available", added:"added to cart", notFound:"Product not found!"},
+  ar: {back:"← العودة للمنتجات", cart:"🛒 السلة", dark:"🌙 الوضع الداكن", qty:"الكمية:", add:"أضف إلى السلة", desc:"الوصف", stock:"✔ متوفر", added:"تمت إضافته إلى السلة", notFound:"المنتج غير موجود!"}
+};
+
+// ==================== تطبيق اللغة ====================
+function applyLanguage(){
+  document.body.dir = lang==="ar"?"right":"left";
+
+  document.querySelector(".navbar a").innerText = translations[lang].back;
+  document.querySelectorAll(".navbar a")[1].innerText = translations[lang].cart;
+  document.getElementById("darkToggle").innerText = translations[lang].dark;
+  document.querySelector("label[for='quantityInput']").innerText = translations[lang].qty;
+  document.getElementById("addCartBtn").innerText = translations[lang].add;
+  document.querySelector(".stock").innerText = translations[lang].stock;
+
+  // ✅ تحديث الاسم بعد تغيير اللغة
+  if(currentProduct){
+    productNameEl.innerText = getName(currentProduct);
+    productDescEl.innerText = translations[lang].desc + ": " + (currentProduct.description || "");
+  }
+}
+
+// ==================== Dark Mode ====================
+const darkToggle = document.getElementById("darkToggle");
+
+if(localStorage.getItem("darkMode")==="true"){
+  document.body.classList.add("dark");
+}
+
+darkToggle.addEventListener("click",()=>{
+  document.body.classList.toggle("dark");
+  localStorage.setItem("darkMode", document.body.classList.contains("dark"));
+});
+
+// ==================== جلب المنتج ====================
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+const productNameEl = document.getElementById("productName");
+const productPriceEl = document.getElementById("productPrice");
+const productImgEl = document.getElementById("productImg");
+const productDescEl = document.getElementById("productDesc");
+const colorSelect = document.getElementById("colorSelect");
+
+if(id){
+  fetch(`getProduct.php?id=${id}`)
+  .then(res => res.json())
+  .then(product => {
+
+    if(!product){
+      showToast(translations[lang].notFound);
+      return;
+    }
+
+    currentProduct = product; // ✅ مهم جداً
+
+    applyLanguage();
+
+    // ===== عرض البيانات =====
+    const nameText = getName(product);
+
+    productNameEl.innerText = nameText;
+    productPriceEl.innerText = product.price + " DA";
+    productImgEl.src = product.image || "https://via.placeholder.com/450x400";
+    productDescEl.innerText = translations[lang].desc + ": " + (product.description || "");
+
+    // ===== الألوان =====
+    let colorsArray = [];
+
+    if(Array.isArray(product.colors)){
+      colorsArray = product.colors;
+    } else if(typeof product.colors === "string"){
+      colorsArray = product.colors.split(",");
+    }
+
+    if(colorsArray.length > 0){
+
+      colorSelect.style.display = "flex";
+      colorSelect.innerHTML = "";
+
+      colorsArray.forEach((color,index)=>{
+        const c = color.trim();
+
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "color";
+        input.id = "color"+index;
+        input.value = c;
+
+        if(index === 0) input.checked = true;
+
+        const label = document.createElement("label");
+        label.setAttribute("for", input.id);
+        label.style.backgroundColor = c;
+        label.title = c;
+
+        colorSelect.appendChild(input);
+        colorSelect.appendChild(label);
+      });
+
+    } else {
+      colorSelect.style.display = "none";
+    }
+
+    // ===== إضافة للسلة =====
+    document.getElementById("addCartBtn").onclick = () => {
+
+      const selectedColorInput = document.querySelector('input[name="color"]:checked');
+      const selectedColor = selectedColorInput ? selectedColorInput.value : "default";
+
+      const quantity = parseInt(document.getElementById("quantityInput").value);
+
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      let existing = cart.find(i =>
+        i.name === product.name && i.color === selectedColor
+      );
+
+      if(existing){
+        existing.quantity += quantity;
+      } else {
+        cart.push({
+  id: product.id,
+  name: product.name,
+  price: product.price,
+  img: product.image,       // ← هذا السطر مهم جدًا لإظهار الصورة
+  color: selectedColor,
+  quantity: quantity
+});
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+
+      showToast(`${nameText} (${selectedColor}) ${translations[lang].added} 🛒`);
+
+      setTimeout(()=>window.location.href="cart.html",1000);
+    };
+
+  })
+  .catch(()=>{
+    showToast(translations[lang].notFound);
+  });
+
+} else {
+  showToast(translations[lang].notFound);
+}
+
+// ==================== Toast ====================
+function showToast(msg){
+  const t = document.createElement("div");
+  t.className = "toast";
+  t.innerText = msg;
+  document.body.appendChild(t);
+
+  setTimeout(()=>{
+    t.style.opacity = "0";
+    setTimeout(()=>t.remove(),500);
+  },2000);
+}
+
+// ==================== Stars ====================
+window.onload = ()=>{
+  const stars = document.querySelectorAll("#ratingStars span");
+  stars.forEach((star,i)=>{
+    star.addEventListener("click",()=>{
+      stars.forEach((s,index)=>{
+        s.style.color = index<=i ? "#f59e0b" : "#ccc";
+      });
+    });
+  });
+};
+
+</script>
+</body>
+</html>

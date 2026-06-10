@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panier - Smart Market</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"/>
+<style>
+:root {
+  --bg: #f8fafc;
+  --card: rgba(255,255,255,0.85);
+  --text: #1e293b;
+  --primary: #3b82f6;
+  --accent: #10b981;
+  --secondary: #64748b;
+  --shadow: rgba(0,0,0,0.1);
+}
+
+body.dark {
+  --bg: #020617;
+  --card: #0f172a;
+  --text: #f1f5f9;
+  --primary: #10b981;
+  --secondary: #94a3b8;
+  --shadow: rgba(0,0,0,0.4);
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg);
+  padding:0;
+  margin:0;
+  color: var(--text);
+}
+
+/* Navbar */
+.navbar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 30px;
+  background:var(--card);
+  backdrop-filter:blur(12px);
+  box-shadow:0 6px 20px var(--shadow);
+  position:sticky;
+  top:0;
+  z-index:100;
+  border-bottom-left-radius:20px;
+  border-bottom-right-radius:20px;
+}
+
+.navbar a, .navbar button {
+  text-decoration:none;
+  color:var(--text);
+  font-weight:500;
+  margin-left:10px;
+  border:none;
+  background:none;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.navbar a:hover, .navbar button:hover {
+  color: var(--primary);
+  transform: scale(1.05);
+}
+
+/* Container */
+.container {
+  max-width:1000px;
+  margin:30px auto;
+  padding:20px;
+}
+
+/* Cart Item */
+.cart-item {
+  display:flex;
+  align-items:center;
+  background:var(--card);
+  padding:15px;
+  margin-bottom:15px;
+  border-radius:20px;
+  box-shadow:0 10px 20px var(--shadow);
+  gap:15px;
+  transition: transform 0.3s;
+}
+
+.cart-item:hover {
+  transform: translateY(-5px);
+}
+
+.cart-item img {
+  width:100px;
+  height:100px;
+  object-fit:contain;
+  border-radius:15px;
+  background:#f8fafc;
+  transition: transform 0.3s, filter 0.3s;
+}
+
+.cart-item img:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+.cart-item .info {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+.cart-item .actions {
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.cart-item .actions button {
+  padding:6px 12px;
+  border:none;
+  border-radius:12px;
+  background: linear-gradient(135deg,#3b82f6,#2563eb);
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.cart-item .actions button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(59,130,246,0.4);
+}
+
+.total {
+  text-align:right;
+  font-size:20px;
+  font-weight:700;
+  color: var(--primary);
+  margin-top:20px;
+}
+
+/* زر التأكيد الرئيسي */
+.confirmBtn {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #3b82f6, #10b981);
+  color: white;
+  cursor: pointer;
+  transition: 0.3s all;
+  box-shadow: 0 6px 20px rgba(59,130,246,0.3);
+}
+
+.confirmBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 28px rgba(59,130,246,0.5), 0 0 20px rgba(59,130,246,0.6);
+  background: linear-gradient(135deg, #2563eb, #059669);
+}
+
+body.dark .confirmBtn {
+  background: linear-gradient(135deg,#10b981,#059669);
+  box-shadow: 0 6px 20px rgba(16,185,129,0.4);
+  color:white;
+}
+
+body.dark .confirmBtn:hover {
+  background: linear-gradient(135deg,#059669,#047857);
+  box-shadow: 0 10px 28px rgba(16,185,129,0.6), 0 0 20px rgba(16,185,129,0.6);
+}
+
+/* Checkout form */
+#checkoutForm {
+  display:none;
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(0,0,0,0.5);
+  justify-content:center;
+  align-items:center;
+}
+
+.form-box {
+  background: var(--card);
+  padding:30px;
+  border-radius:20px;
+  width:320px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.form-box input {
+  padding:10px 12px;
+  font-size:14px;
+  border-radius:12px;
+  border:1px solid #ccc;
+  transition:0.3s;
+  background:#f1f5f9;
+  color: var(--text);
+}
+
+.form-box input:focus {
+  outline:none;
+  border-color: var(--primary);
+  box-shadow: 0 0 8px rgba(59,130,246,0.3);
+}
+
+.form-box button {
+  padding:10px;
+  border:none;
+  border-radius:12px;
+  font-weight:700;
+  cursor:pointer;
+  transition: 0.3s all;
+}
+
+.form-box button.confirm {
+  background: linear-gradient(135deg,#3b82f6,#2563eb);
+  color:white;
+}
+body.dark .form-box button.confirm {
+  background: linear-gradient(135deg,#10b981,#059669);
+}
+.form-box button.confirm:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 28px rgba(59,130,246,0.5), 0 0 20px rgba(59,130,246,0.6);
+}
+body.dark .form-box button.confirm:hover {
+  background: linear-gradient(135deg,#059669,#047857);
+  box-shadow: 0 10px 28px rgba(16,185,129,0.6), 0 0 20px rgba(16,185,129,0.6);
+}
+
+.form-box button.cancel {
+  background:#f1f5f9;
+  margin-top:5px;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #10b981;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 25px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  font-weight: bold;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+/* نص الفورم في الدارك مود */
+body.dark .form-box {
+  color: white;
+}
+
+/* العناوين داخل الفورم */
+body.dark .form-box h3 {
+  color: white;
+}
+
+/* الحقول (input) */
+body.dark .form-box input {
+  background: #1e293b;
+  color: white;
+  border: 1px solid #334155;
+}
+
+/* placeholder */
+body.dark .form-box input::placeholder {
+  color: #94a3b8;
+}
+
+/* select (country code) */
+body.dark select {
+  background: #1e293b;
+  color: white;
+  border: 1px solid #334155;
+}
+body.dark #checkoutForm {
+  background: rgba(0,0,0,0.7);
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+  <div><a href="products.html" id="backLink">← Retour aux produits</a></div>
+  <div>
+    <a href="cart.html" id="cartLink">🛒 Panier</a>
+    <button id="darkToggle">🌙 Dark Mode</button>
+  </div>
+</div>
+
+<div class="container" id="cartContainer"></div>
+<div class="container total" id="totalPrice"></div>
+
+<div style="text-align:right; margin:20px;">
+  <button onclick="showCheckout()" class="confirmBtn">✅ Valider la commande</button>
+</div>
+
+<div id="checkoutForm">
+  <div class="form-box">
+    <h3 id="checkoutTitle">🧾 Informations</h3>
+    <input id="name" placeholder="Nom">
+    <div style="display:flex; gap:5px;">
+  <select id="countryCode">
+    <option value="+213">🇩🇿 +213</option>
+    <option value="+33">🇫🇷 +33</option>
+    <option value="+216">🇹🇳 +216</option>
+    <option value="+212">🇲🇦 +212</option>
+    <option value="+1">🇺🇸 +1</option>
+    <option value="+44">🇬🇧 +44</option>
+  </select>
+
+  <input id="phone" placeholder="Téléphone" style="flex:1;">
+</div>
+    <input id="address" placeholder="Adresse">
+    <button onclick="validateOrder()" class="confirm">Confirmer</button>
+    <button onclick="closeCheckout()" class="cancel">Annuler</button>
+  </div>
+</div>
+
+<script>
+const lang = localStorage.getItem("lang") || "fr";
+
+const translations = {
+  fr: { back:"← Retour aux produits", cart:"🛒 Panier", dark:"🌙 Mode sombre",
+        empty:"🛒 Votre panier est vide", checkout:"🧾 Informations", confirm:"Confirmer",
+        cancel:"Annuler", validate:"✅ Valider la commande", fill:"⚠️ Remplir tous les champs !",
+        phoneErr:"📞 Numéro invalide !", orderDone:"✅ Commande validée avec succès !" },
+  en: { back:"← Back to products", cart:"🛒 Cart", dark:"🌙 Dark Mode",
+        empty:"🛒 Your cart is empty", checkout:"🧾 Information", confirm:"Confirm",
+        cancel:"Cancel", validate:"✅ Place Order", fill:"⚠️ Fill all fields!",
+        phoneErr:"📞 Invalid phone number!", orderDone:"✅ Order successfully placed!" },
+  ar: { back:"← العودة للمنتجات", cart:"🛒 السلة", dark:"🌙 الوضع الداكن",
+        empty:"🛒 السلة فارغة", checkout:"🧾 المعلومات", confirm:"تأكيد",
+        cancel:"إلغاء", validate:"✅ تأكيد الطلب", fill:"⚠️ املأ جميع الحقول!",
+        phoneErr:"📞 رقم غير صالح!", orderDone:"✅ تم تأكيد الطلب بنجاح!" }
+};
+
+function applyLanguage(){
+  document.body.dir = lang==="ar"?"right":"left";
+  document.getElementById("backLink").innerText = translations[lang].back;
+  document.getElementById("cartLink").innerText = translations[lang].cart;
+  document.getElementById("darkToggle").innerText = translations[lang].dark;
+  document.getElementById("checkoutTitle").innerText = translations[lang].checkout;
+  document.querySelector(".confirmBtn").innerText = translations[lang].validate;
+  document.querySelector(".form-box .confirm").innerText = translations[lang].confirm;
+  document.querySelector(".form-box .cancel").innerText = translations[lang].cancel;
+}
+applyLanguage();
+
+// Dark Mode
+const darkToggle = document.getElementById("darkToggle");
+if(localStorage.getItem("darkMode")==="true") document.body.classList.add("dark");
+darkToggle.addEventListener("click", ()=>{
+  document.body.classList.toggle("dark");
+  localStorage.setItem("darkMode", document.body.classList.contains("dark"));
+});
+
+// Toast
+function showToast(msg){
+  const t=document.createElement("div");
+  t.className="toast"; t.innerText=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>{ t.style.opacity="0"; setTimeout(()=>t.remove(),500); },2000);
+}
+
+// Cart Display
+function displayCart(){
+  let cart=JSON.parse(localStorage.getItem("cart"))||[];
+  const container=document.getElementById("cartContainer");
+  const totalBox=document.getElementById("totalPrice");
+  container.innerHTML="";
+
+  if(cart.length===0){
+    container.innerHTML=`<div class="empty">${translations[lang].empty}</div>`;
+    totalBox.innerHTML="";
+    return;
+  }
+
+  let total=0;
+
+  cart.forEach((item,index)=>{
+    total += item.price*item.quantity;
+    const colorInfo = item.color ? ` | ${item.color}` : "";
+  container.innerHTML += `
+    <div class="cart-item">
+      <img src="${item.img}" alt="${item.name}">
+      <div class="info">
+        <h4>${item.name}${colorInfo}</h4>
+        <p>${item.price} DA</p>
+      </div>
+      <div class="actions">
+        <button onclick="changeQty(${index},-1)">➖</button>
+        ${item.quantity}
+        <button onclick="changeQty(${index},1)">➕</button>
+        <button onclick="removeItem(${index})">❌</button>
+      </div>
+    </div>
+  `;
+});
+
+  totalBox.innerText="Total: "+total+" DA";
+}
+
+// Quantity change
+function changeQty(index,change){
+  let cart=JSON.parse(localStorage.getItem("cart"))||[];
+  cart[index].quantity+=change;
+  if(cart[index].quantity<=0) cart.splice(index,1);
+  localStorage.setItem("cart",JSON.stringify(cart));
+  displayCart();
+}
+
+// Remove item
+function removeItem(index){
+  let cart=JSON.parse(localStorage.getItem("cart"))||[];
+  cart.splice(index,1);
+  localStorage.setItem("cart",JSON.stringify(cart));
+  displayCart();
+}
+
+// Checkout
+function showCheckout(){
+  let cart=JSON.parse(localStorage.getItem("cart"))||[];
+  if(cart.length===0){ showToast(translations[lang].empty); return; }
+  document.getElementById("checkoutForm").style.display="flex";
+}
+
+function closeCheckout(){ document.getElementById("checkoutForm").style.display="none"; }
+
+function validateOrder(){
+  let name = document.getElementById("name").value.trim();
+  let phone = document.getElementById("phone").value.trim();
+  let address = document.getElementById("address").value.trim();
+  let countryCode = document.getElementById("countryCode").value;
+
+  if(!name || !phone || !address){
+    showToast(translations[lang].fill);
+    return;
+  }
+
+  if(phone.length < 8){
+    showToast(translations[lang].phoneErr);
+    return;
+  }
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let user = JSON.parse(localStorage.getItem("user"));
+
+  if(!user){
+    showToast("❌ Vous devez être connecté");
+    return;
+  }
+
+  // ✅ حفظ الطلب مؤقتاً
+  const orderData = {
+    user_id: user.id,
+    name: name,
+    phone: countryCode + phone,
+    address: address,
+    cart: cart
+  };
+
+  localStorage.setItem("pendingOrder", JSON.stringify(orderData));
+
+  // إغلاق الفورم
+  closeCheckout();
+
+  // الانتقال لصفحة الدفع
+  window.location.href = "payment.html";
+}
+
+window.addEventListener("DOMContentLoaded",displayCart);
+ src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"</script>
+</body>
+</html>
