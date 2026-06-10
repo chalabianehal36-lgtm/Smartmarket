@@ -1,6 +1,7 @@
 # 🛒 Smart Market
 
 [🌐 Visit Smart Market](https://smartmaket.free.nf)
+
 A modern full-stack e-commerce web application built with vanilla JavaScript and PHP, featuring multi-language support, dark mode, and a complete shopping flow from browsing to checkout.
 
 ![Smart Market](https://img.shields.io/badge/Smart%20Market-E--Commerce-3b82f6?style=for-the-badge)
