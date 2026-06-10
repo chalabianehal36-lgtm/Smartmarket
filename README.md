@@ -156,5 +156,10 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 ## 👨‍💻 Author
 
 **Your Name**  
-📧 your.email@example.com  
-🔗 [LinkedIn](https://linkedin.com/in/yourprofile) · [GitHub](https://github.com/your-username)
+## Contact
+
+📧 Email: chalabianehal36@gmail.com 
+
+🌐 GitHub: https://github.com/chalabianehal36-lgtm
+
+🚀 Project: https://github.com/chalabianehal36-lgtm/Smartmarket
